@@ -7,78 +7,29 @@
 #include "lib.h"
 
 namespace integer {
-
-
+	
 	template <typename T>
-	void print_ip(int a) {
-		unsigned char uc = (unsigned char) a;
-		std::cout << (int) uc << '\n';
-	}
-	void print_ip(int8_t a) {
-		unsigned char uc = (unsigned char) a;
-		std::cout << (int) uc << '\n';
-	}
-	void print_ip(int16_t a) {
-		int8_t a1 = a / 256;
-		int8_t a2 = a % 256;
-		unsigned char uc1 = (unsigned char) a1;
-		unsigned char uc2 = (unsigned char) a2;
-		std::cout << (int) uc1 << "." << (int) uc2 << '\n';
-	}
-	void print_ip(int32_t a) {
-		int8_t a1 =  a / pow(256, 3);
-		int8_t a2 = (a - a1 * pow(256, 3)) / pow(256, 2);
-		int8_t a3 = (a - a1 * pow(256, 3)
-					   - a2 * pow(256, 2)) / pow(256, 1);
-		int8_t a4 = (a - a1 * int(pow(256, 3))
-					   - a2 * int(pow(256, 2))
-					   - a3 * int(256))         % int(256);
-		unsigned char uc1 = (unsigned char) a1;
-		unsigned char uc2 = (unsigned char) a2;
-		unsigned char uc3 = (unsigned char) a3;
-		unsigned char uc4 = (unsigned char) a4;
-		std::cout << (int) uc1 << "." << (int) uc2 << "." << (int) uc3 << "." << (int) uc4 << '\n';
-	}
-	void print_ip(int64_t a) {
-		int8_t a1 =  a / pow(256, 7);
-		int8_t a2 = (a - a1 * pow(256, 7)) / pow(256, 6);
-		int8_t a3 = (a - a1 * pow(256, 7)
-					   - a2 * pow(256, 6)) / pow(256, 5);
-		int8_t a4 = (a - a1 * pow(256, 7)
-					   - a2 * pow(256, 6)
-					   - a3 * pow(256, 5)) / pow(256, 4);
-		int8_t a5 = (a - a1 * pow(256, 7)
-					   - a2 * pow(256, 6)
-					   - a3 * pow(256, 5)
-					   - a4 * pow(256, 4)) / pow(256, 3);
-		int8_t a6 = (a - a1 * pow(256, 7)
-					   - a2 * pow(256, 6)
-					   - a3 * pow(256, 5)
-					   - a4 * pow(256, 4)
-					   - a5 * pow(256, 3)) / pow(256, 2);
-		int8_t a7 = (a - a1 * pow(256, 7)
-					   - a2 * pow(256, 6)
-					   - a3 * pow(256, 5)
-					   - a4 * pow(256, 4)
-					   - a5 * pow(256, 3)
-					   - a6 * pow(256, 2)) / pow(256, 1);
-		int8_t a8 = (a - a1 * int(pow(256, 7))
-					   - a2 * int(pow(256, 6))
-					   - a3 * int(pow(256, 5))
-					   - a4 * int(pow(256, 4))
-					   - a5 * int(pow(256, 3))
-					   - a6 * int(pow(256, 2))
-					   - a7 * int(pow(256, 1))) % int(256);
-		unsigned char uc1 = (unsigned char) a1;
-		unsigned char uc2 = (unsigned char) a2;
-		unsigned char uc3 = (unsigned char) a3;
-		unsigned char uc4 = (unsigned char) a4;
-		unsigned char uc5 = (unsigned char) a5;
-		unsigned char uc6 = (unsigned char) a6;
-		unsigned char uc7 = (unsigned char) a7;
-		unsigned char uc8 = (unsigned char) a8;
-		std::cout << (int) uc1 << "." << (int) uc2 << "." << (int) uc3 << "." << (int) uc4 << "." <<
-					 (int) uc5 << "." << (int) uc6 << "." << (int) uc7 << "." << (int) uc8 << '\n';
+	auto print_ip(T &number) -> decltype(number) {
+		unsigned char uc;
+		int SizeInt = sizeof(T);
+		switch(SizeInt)
+		{
+			case 1:
+				uc = (unsigned char) number;
+				std::cout << (int) uc;
+				break;
+			default:
+				for (int i = SizeInt; i--;) {
+					int8_t a = number / pow(256, i);
+					uc = (unsigned char) a;
+					std::cout << (int) uc;
+					if (i > 0) std::cout << ".";
+					number -= (int) uc * pow(256, i);
+				}
+				break;
+		}
+		std::cout << std::endl;
+		return number;
 	}
 	void print_ip(std::string a) {
 		std::cout << a << '\n';
