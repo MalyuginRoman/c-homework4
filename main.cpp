@@ -5,7 +5,7 @@
 #include <tuple>
 #include <string>
 
-#inclide 'lib.h'
+#include 'lib.h'
 
 static const char tchk = '.';
 
